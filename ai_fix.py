@@ -1,53 +1,48 @@
 ```python
-def divide(a, b):
+def calculate_average(numbers):
     """
-    Divide two numbers and handle division by zero.
+    Calculate the average of a list of numbers.
 
     Args:
-        a (float): The dividend.
-        b (float): The divisor.
+        numbers (list): A list of numbers.
 
     Returns:
-        float: The result of the division, or None if the divisor is zero.
+        float: The average of the numbers in the list.
 
     Raises:
-        ValueError: If the divisor is zero.
+        TypeError: If the input is not a list.
+        ValueError: If the list contains non-numeric values or is empty.
     """
-    # Check if the divisor is zero
-    if b == 0:
-        # Raise a custom error message
-        raise ValueError("Cannot divide by zero")
-    # Perform the division operation
-    return a / b
+    if not isinstance(numbers, list):
+        raise TypeError("Input must be a list")
+    if not all(isinstance(x, (int, float)) for x in numbers):
+        raise ValueError("List must contain only numbers")
+    if len(numbers) == 0:
+        raise ValueError("Cannot calculate average of an empty list")
+    return sum(numbers) / len(numbers)
 
-# Test the division function
-print(divide(10, 2))  # Output: 5.0
+# Test with empty list
+numbers = []
 try:
-    print(divide(10, 0))  # Output: ValueError: Cannot divide by zero
+    print(calculate_average(numbers))
 except ValueError as e:
-    print(e)
-```
-Alternatively, you can return a specific value:
-```python
-def divide(a, b):
-    """
-    Divide two numbers and handle division by zero.
+    print(f"Error: {e}")
 
-    Args:
-        a (float): The dividend.
-        b (float): The divisor.
+# Test with non-empty list
+numbers = [1, 2, 3, 4, 5]
+print(calculate_average(numbers))
 
-    Returns:
-        float: The result of the division, or None if the divisor is zero.
-    """
-    # Check if the divisor is zero
-    if b == 0:
-        # Return a specific value to indicate an invalid operation
-        return None
-    # Perform the division operation
-    return a / b
+# Test with non-list input
+numbers = "not a list"
+try:
+    print(calculate_average(numbers))
+except TypeError as e:
+    print(f"Error: {e}")
 
-# Test the division function
-print(divide(10, 2))  # Output: 5.0
-print(divide(10, 0))  # Output: None
+# Test with list containing non-numeric values
+numbers = [1, 2, 'a', 4, 5]
+try:
+    print(calculate_average(numbers))
+except ValueError as e:
+    print(f"Error: {e}")
 ```
